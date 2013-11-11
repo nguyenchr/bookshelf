@@ -172,12 +172,12 @@ define(function(require, exports) {
     // passed in when the relation was formed.
     whereClauses: function(knex, resp) {
       var key;
-
+      
       if (this.isJoined()) {
         var targetTable = this.type === 'belongsTo' ? this.parentTableName : this.joinTable();
         key = targetTable + '.' + (this.type === 'belongsTo' ? this.parentIdAttribute : this.key('foreignKey'));
       } else {
-        key = this.isInverse() ? this.targetIdAttribute : this.key('foreignKey');
+        key = this.targetTableName + '.' + (this.isInverse() ? this.targetIdAttribute : this.key('foreignKey'));
       }
 
       knex[resp ? 'whereIn' : 'where'](key, resp ? this.eagerKeys(resp) : this.parentFk);
